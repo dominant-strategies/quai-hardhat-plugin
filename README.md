@@ -9,19 +9,19 @@ A hardhat plugin to handle solidityX compiler ( for beginning )
 <_A step-by-step guide on how to install the plugin_>
 
 ```bash
-npm install hardhat-quai-plugin
+npm install quai-hardhat-plugin
 ```
 
 Import the plugin in your `hardhat.config.js`:
 
 ```js
-require("hardhat-quai-plugin");
+require("quai-hardhat-plugin");
 ```
 
 Or if you are using TypeScript, in your `hardhat.config.ts`:
 
 ```ts
-import "hardhat-quai-plugin";
+import "quai-hardhat-plugin";
 ```
 
 ## Configuration
@@ -34,7 +34,7 @@ This is an example of how to set it:
 ```js
 module.exports = {
   solidityx: {
-    compiler_path: "PATH_TO_SOLC_COMPILER",
+    compilerPath: "PATH_TO_SOLC_COMPILER",
   },
 };
 ```

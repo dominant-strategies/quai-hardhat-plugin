@@ -8,7 +8,7 @@ import "./type-extensions";
 
 extendConfig(
   (config: HardhatConfig, userConfig: Readonly<HardhatUserConfig>) => {
-    const compilerPath = userConfig.solidityx?.compiler_path;
+    const compilerPath = userConfig.solidityx?.compilerPath;
     let newPath: string;
     if (compilerPath === undefined) {
       throw new HardhatPluginError("SolidityX compiler path should be setted");
@@ -22,7 +22,7 @@ extendConfig(
       throw new HardhatPluginError("SolidityX compiler not found in path");
     }
     config.solidityx = {
-      compiler_path: newPath,
+      compilerPath: newPath,
     };
   }
 );
@@ -33,7 +33,7 @@ internalTask(TASK_COMPILE_SOLIDITY_RUN_SOLC).setAction(
     hre,
     runSuper
   ): Promise<string> => {
-    solcPath = hre.config.solidityx.compiler_path;
+    solcPath = hre.config.solidityx.compilerPath;
     fsExtra.chmodSync(solcPath, "0755");
     return runSuper({ input, solcPath });
   }

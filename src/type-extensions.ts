@@ -5,12 +5,12 @@ import "hardhat/types/config";
 declare module "hardhat/types/config" {
   interface HardhatUserConfig {
     solidityx: {
-      [compiler_path: string]: string;
+      [compilerPath: string]: string;
     };
   }
   interface HardhatConfig {
     solidityx: {
-      [compiler_path: string]: string;
+      [compilerPath: string]: string;
     };
   }
 }
