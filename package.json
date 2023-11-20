@@ -1,0 +1,54 @@
+{
+  "name": "quai-hardhat-plugin",
+  "version": "1.0.0",
+  "description": "Hardhat TypeScript plugin for Quai Network",
+  "repository": "github:nomiclabs/hardhat-ts-plugin-boilerplate",
+  "author": "Nomic Labs LLC",
+  "license": "MIT",
+  "main": "dist/src/index.js",
+  "types": "dist/src/index.d.ts",
+  "keywords": [
+    "quai",
+    "smart-contracts",
+    "hardhat",
+    "hardhat-plugin"
+  ],
+  "scripts": {
+    "lint:fix": "eslint --fix .",
+    "lint": "eslint .",
+    "test": "mocha --exit --recursive 'test/**/*.test.ts'",
+    "build": "npx tsc",
+    "watch": "npx tsc -w",
+    "publish:release": "npm publish",
+    "publish:next": "npm publish --tag next",
+    "prepublishOnly": "npm run build"
+  },
+  "files": [
+    "dist/src/",
+    "src/",
+    "LICENSE",
+    "README.md"
+  ],
+  "devDependencies": {
+    "@types/chai": "^4.1.7",
+    "@types/fs-extra": "^5.0.4",
+    "@types/mocha": "^5.2.6",
+    "@types/node": "^8.10.38",
+    "chai": "^4.2.0",
+    "eslint": "^8.54.0",
+    "eslint-config-prettier": "^6.11.0",
+    "eslint-plugin-prettier": "^3.1.4",
+    "fs-extra": "^9.0.1",
+    "hardhat": "^2.0.9",
+    "mocha": "^10.2.0",
+    "prettier": "2.0.5",
+    "ts-node": "^8.1.0",
+    "typescript": "^5.2.2"
+  },
+  "peerDependencies": {
+    "hardhat": "^2.0.5"
+  },
+  "dependencies": {
+    "@typescript-eslint/eslint-plugin": "^6.12.0"
+  }
+}
