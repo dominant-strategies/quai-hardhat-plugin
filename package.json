@@ -32,6 +32,7 @@
   "devDependencies": {
     "@types/chai": "^4.1.7",
     "@types/debug": "^4.1.12",
+    "@types/download": "^8.0.5",
     "@types/fs-extra": "^5.0.4",
     "@types/mocha": "^5.2.6",
     "@types/node": "^8.10.38",
@@ -50,6 +51,8 @@
     "hardhat": "^2.0.5"
   },
   "dependencies": {
-    "@typescript-eslint/eslint-plugin": "^6.12.0"
+    "@typescript-eslint/eslint-plugin": "^6.12.0",
+    "crypto": "^1.0.1",
+    "download": "^8.0.0"
   }
 }
