@@ -1,6 +1,6 @@
 {
   "name": "quai-hardhat-plugin",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Hardhat TypeScript plugin for Quai Network",
   "repository": "https://github.com/dominant-strategies/quai-hardhat-plugin",
   "author": "Dominant Strategies",
