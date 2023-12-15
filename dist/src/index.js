@@ -32,13 +32,16 @@ const rl = readline_1.default.createInterface({
     else {
         newPath = path_1.default.normalize(path_1.default.join(config.paths.root, compilerPath));
     }
+    let isWasmCompiler = userConfig.solidityx?.isWasmCompiler ?? false;
     config.solidityx = {
         compilerPath: newPath,
+        isWasmCompiler: isWasmCompiler
     };
 });
 const log = (0, debug_1.default)("hardhat:core:tasks:compile");
 (0, config_1.internalTask)(task_names_1.TASK_COMPILE_SOLIDITY_GET_SOLC_BUILD).setAction(async ({ quiet, solcVersion }, hre, runSuper) => {
     const customCompilerPath = hre.config.solidityx.compilerPath;
+    const isWasm = hre.config.solidityx.isWasmCompiler;
     const resolvedPath = path_1.default.resolve(customCompilerPath);
     // Is the path a directory?
     if (fs_extra_1.default.existsSync(resolvedPath) && fs_extra_1.default.statSync(resolvedPath).isDirectory()) {
@@ -82,7 +85,7 @@ const log = (0, debug_1.default)("hardhat:core:tasks:compile");
         version: 'Solx',
         longVersion: 'Solidity X',
         compilerPath: resolvedPath,
-        isSolcJs: false
+        isSolcJs: isWasm
     };
     if (compiler !== undefined) {
         return compiler;

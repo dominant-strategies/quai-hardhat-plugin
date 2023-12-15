@@ -5,12 +5,14 @@ import "hardhat/types/config";
 declare module "hardhat/types/config" {
   interface HardhatUserConfig {
     solidityx: {
-      [compilerPath: string]: string;
+      compilerPath: string;
+      isWasmCompiler?: boolean;
     };
   }
   interface HardhatConfig {
     solidityx: {
-      [compilerPath: string]: string;
+      compilerPath: string;
+      isWasmCompiler: boolean;
     };
   }
 }
