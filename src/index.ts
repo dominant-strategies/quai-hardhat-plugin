@@ -44,8 +44,11 @@ extendConfig(
       newPath = path.normalize(path.join(config.paths.root, compilerPath));
     }
 
+    let isWasmCompiler = userConfig.solidityx?.isWasmCompiler ?? false;
+
     config.solidityx = {
       compilerPath: newPath,
+      isWasmCompiler: isWasmCompiler
     };
   }
 );
@@ -59,6 +62,7 @@ internalTask(TASK_COMPILE_SOLIDITY_GET_SOLC_BUILD).setAction(
     runSuper
   ): Promise<SolcBuild> => {
     const customCompilerPath = hre.config.solidityx.compilerPath;
+    const isWasm = hre.config.solidityx.isWasmCompiler;
     const resolvedPath = path.resolve(customCompilerPath);
 
     // Is the path a directory?
@@ -105,7 +109,7 @@ internalTask(TASK_COMPILE_SOLIDITY_GET_SOLC_BUILD).setAction(
       version: 'Solx',
       longVersion: 'Solidity X',
       compilerPath: resolvedPath,
-      isSolcJs: false
+      isSolcJs: isWasm
     };
 
     if (compiler !== undefined) {
