@@ -3,6 +3,17 @@ import { TASK_COMPILE_SOLIDITY_GET_SOLC_BUILD } from "hardhat/builtin-tasks/task
 import { SolcBuild } from "hardhat/types/builtin-tasks/compile";
 import { HardhatConfig, HardhatUserConfig, CompilerInput } from "hardhat/types";
 import { assertHardhatInvariant } from "hardhat/internal/core/errors";
+import {
+  DARWIN_SOLX_LINK,
+  DARWIN_CHECKSUM,
+  UBUNTU_18_LINK,
+  UBUNTU_18_CHECKSUM,
+  UBUNTU_20_LINK,
+  UBUNTU_20_CHECKSUM,
+  WINDOWS_SOLX_LINK,
+  WINDOWS_CHECKSUM,
+  DEFAULT_COMPILER_PATH
+} from './constants';
 import path from "path";
 import debug from "debug";
 import fsExtra from "fs-extra";
