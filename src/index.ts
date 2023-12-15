@@ -182,7 +182,7 @@ const getLinuxDistribution = async () => {
     case '1':
     case 'ubuntu18':
     case 'ubuntu 18':
-      console.log('\x1b[1m\x1b[31m%s\x1b[0m%s', 'Error:', " Ubuntu 18 download is not supported yet, please compile SolidityX from source");
+      recommendManualCompile();
       process.exit(1);
       ubuntu_version = 'ubuntu18'
       return 'ubuntu18';
@@ -215,11 +215,11 @@ const getChecksum = async (os: string) => {
       break;
     case 'win32':
       console.log('\x1b[1m\x1b[31m%s\x1b[0m%s', 'Error:', " Windows download is not supported yet, please compile SolidityX from source");
-      process.exit(1);
+      process.exit();
       return WINDOWS_CHECKSUM;
     default:
       recommendManualCompile();
-      process.exit(1);
+      process.exit();
   }
 };
 
@@ -234,14 +234,16 @@ const getSolxLink = async (os: string): Promise<string> => {
       } else if (linuxDistro === 'ubuntu20') {
         return UBUNTU_20_LINK;
       } else {
-        console.log('\x1b[1m\x1b[32m%s\x1b[0m%s', 'Error: ', 'Unfortunetly, SolidityX does not support your operating system yet');
+        recommendManualCompile();
         process.exit();
       }
     case 'win32':
+      recommendManualCompile();
+      process.exit()
       return WINDOWS_SOLX_LINK;
     default:
       recommendManualCompile();
-      process.exit(1);
+      process.exit();
   }
 };
 
@@ -249,5 +251,4 @@ const recommendManualCompile = () => {
   console.error('\x1b[1m\x1b[31m%s\x1b[0m%s', 'Error:', ' Unsupported OS. Quai currently supports macOS and Ubuntu 20');
   console.log('\x1b[1m\x1b[32m%s\x1b[0m%s', 'Tip: ', 'Compile SolidityX from source:');
   console.log('\x1b[1m\x1b[32m%s\x1b[0m%s', 'Tip: ', 'Visit: https://github.com/dominant-strategies/SolidityX');
-  process.exit(1);
 }
