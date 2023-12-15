@@ -6,6 +6,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const config_1 = require("hardhat/config");
 const task_names_1 = require("hardhat/builtin-tasks/task-names");
 const errors_1 = require("hardhat/internal/core/errors");
+const constants_1 = require("./constants");
 const path_1 = __importDefault(require("path"));
 const debug_1 = __importDefault(require("debug"));
 const fs_extra_1 = __importDefault(require("fs-extra"));
@@ -22,8 +23,8 @@ const rl = readline_1.default.createInterface({
     let compilerPath = userConfig.solidityx?.compilerPath;
     let newPath;
     if (compilerPath === undefined) {
-        console.log('\x1b[1m\x1b[32m%s\x1b[0m%s', 'Info: ', 'SolidityX Path not specified. Using default path: ' + path_1.default.join(config.paths.root, DEFAULT_COMPILER_PATH));
-        compilerPath = DEFAULT_COMPILER_PATH;
+        console.log('\x1b[1m\x1b[32m%s\x1b[0m%s', 'Info: ', 'SolidityX Path not specified. Using default path: ' + path_1.default.join(config.paths.root, constants_1.DEFAULT_COMPILER_PATH));
+        compilerPath = constants_1.DEFAULT_COMPILER_PATH;
     }
     if (path_1.default.isAbsolute(compilerPath)) {
         newPath = compilerPath;
@@ -160,20 +161,20 @@ const getLinuxDistribution = async () => {
 const getChecksum = async (os) => {
     switch (os) {
         case 'darwin':
-            return DARWIN_CHECKSUM;
+            return constants_1.DARWIN_CHECKSUM;
         case 'linux':
             const linuxDistro = await getLinuxDistribution();
             if (linuxDistro === 'ubuntu18') {
-                return UBUNTU_18_CHECKSUM;
+                return constants_1.UBUNTU_18_CHECKSUM;
             }
             else if (linuxDistro === 'ubuntu20') {
-                return UBUNTU_20_CHECKSUM;
+                return constants_1.UBUNTU_20_CHECKSUM;
             }
             break;
         case 'win32':
             console.log('\x1b[1m\x1b[31m%s\x1b[0m%s', 'Error:', " Windows download is not supported yet, please compile SolidityX from source");
             process.exit(1);
-            return WINDOWS_CHECKSUM;
+            return constants_1.WINDOWS_CHECKSUM;
         default:
             recommendManualCompile();
             process.exit(1);
@@ -182,21 +183,21 @@ const getChecksum = async (os) => {
 const getSolxLink = async (os) => {
     switch (os) {
         case 'darwin':
-            return DARWIN_SOLX_LINK;
+            return constants_1.DARWIN_SOLX_LINK;
         case 'linux':
             const linuxDistro = await getLinuxDistribution();
             if (linuxDistro === 'ubuntu18') {
-                return UBUNTU_18_LINK;
+                return constants_1.UBUNTU_18_LINK;
             }
             else if (linuxDistro === 'ubuntu20') {
-                return UBUNTU_20_LINK;
+                return constants_1.UBUNTU_20_LINK;
             }
             else {
                 console.log('\x1b[1m\x1b[32m%s\x1b[0m%s', 'Error: ', 'Unfortunetly, SolidityX does not support your operating system yet');
                 process.exit();
             }
         case 'win32':
-            return WINDOWS_SOLX_LINK;
+            return constants_1.WINDOWS_SOLX_LINK;
         default:
             recommendManualCompile();
             process.exit(1);
