@@ -34,7 +34,6 @@ extendConfig(
     let newPath: string;
 
     if (compilerPath === undefined) {
-      console.log('\x1b[1m\x1b[32m%s\x1b[0m%s', 'Info: ', 'SolidityX Path not specified. Using default path: ' + path.join(config.paths.root, DEFAULT_COMPILER_PATH));
       compilerPath = DEFAULT_COMPILER_PATH;
     }
 
@@ -65,9 +64,11 @@ internalTask(TASK_COMPILE_SOLIDITY_GET_SOLC_BUILD).setAction(
     const isWasm = hre.config.solidityx.isWasmCompiler;
     const resolvedPath = path.resolve(customCompilerPath);
 
+    console.log('\x1b[1m\x1b[32m%s\x1b[0m%s', 'Info ', 'Using SolidityX at: ' + resolvedPath);
+
     // Is the path a directory?
     if (fsExtra.existsSync(resolvedPath) && fsExtra.statSync(resolvedPath).isDirectory()) {
-      console.log('\x1b[1m\x1b[31m%s\x1b[0m%s', 'Error:', ' Path is a directory: ' + resolvedPath);
+      console.log('\x1b[1m\x1b[31m%s\x1b[0m%s', 'Error ', 'Path is a directory: ' + resolvedPath);
       process.exit(1)
     }
 
@@ -76,7 +77,7 @@ internalTask(TASK_COMPILE_SOLIDITY_GET_SOLC_BUILD).setAction(
     } catch {
       // If the path doesn't exist, download the compiler
       if (!fsExtra.existsSync(resolvedPath)) {
-        console.error('\x1b[1m\x1b[31m%s\x1b[0m%s', '\nError: ', 'SolidityX compiler not found at path: ' + resolvedPath);
+        console.error('\x1b[1m\x1b[31m%s\x1b[0m%s', 'Error ', 'SolidityX compiler not found at path: ' + resolvedPath);
 
         const question = (query: string): Promise<string> => new Promise<string>((resolve) => rl.question(query, (answer: string) => resolve(answer.trim())));
 
@@ -86,11 +87,11 @@ internalTask(TASK_COMPILE_SOLIDITY_GET_SOLC_BUILD).setAction(
           if (answer.toLowerCase() === 'yes' || answer.toLowerCase() === 'y') {
             await downloadCompiler(resolvedPath);
           } else {
-            console.log('\x1b[1m\x1b[32m%s\x1b[0m%s', 'Tip: ', 'Double-check your SolidityX compiler path in the hardhat.config.js');
+            console.log('\x1b[1m\x1b[32m%s\x1b[0m%s', 'Tip ', 'Double-check your SolidityX compiler path in the hardhat.config.js');
             process.exit(1);
           }
         } catch (error) {
-          console.log('\x1b[1m\x1b[31m%s\x1b[0m%s', 'Error:', error);
+          console.log('\x1b[1m\x1b[31m%s\x1b[0m%s', 'Error ', error);
           process.exit(1);
         } finally {
           rl.close();
@@ -99,8 +100,8 @@ internalTask(TASK_COMPILE_SOLIDITY_GET_SOLC_BUILD).setAction(
 
       // Is the path a file without permissions?
       else if (fsExtra.statSync(resolvedPath).isFile()) {
-        console.log('\x1b[1m\x1b[31m%s\x1b[0m%s', 'Error:', ' Compiler does not have permission to execute.');
-        console.log('\x1b[1m\x1b[32m%s\x1b[0m%s', 'Tip: ', 'Grant execute permission using: \'chmod +x ' + resolvedPath + '\'\n');
+        console.log('\x1b[1m\x1b[31m%s\x1b[0m%s', 'Error ', 'Compiler does not have permission to execute.');
+        console.log('\x1b[1m\x1b[32m%s\x1b[0m%s', 'Tip ', 'Grant execute permission using: \'chmod +x ' + resolvedPath + '\'\n');
         process.exit(1)
       }
     }
@@ -142,23 +143,23 @@ const downloadCompiler = async (downloadPath: string) => {
   const checksum = await getChecksum(os);
 
   try {
-    console.log('\x1b[1m\x1b[32m%s\x1b[0m%s', 'Info: ', 'Downloading to: ' + downloadPath);
+    console.log('\x1b[1m\x1b[32m%s\x1b[0m%s', 'Info ', 'Downloading to: ' + downloadPath);
     const data = await download(solxLink);
 
     const hash = crypto.createHash('sha256');
     const hashResult = hash.update(data).digest('hex');
 
     if (hashResult !== checksum) {
-      console.error('\x1b[1m\x1b[31m%s\x1b[0m%s', 'Error:', ' Checksum mismatch');
+      console.error('\x1b[1m\x1b[31m%s\x1b[0m%s', 'Error ', 'Checksum mismatch');
       process.exit(1);
     }
 
     fsExtra.writeFileSync(downloadPath, data);
     fsExtra.chmodSync(downloadPath, 0o755);
-    console.log('\x1b[1m\x1b[32m%s\x1b[0m%s', 'Info: ', 'Download successful!');
+    console.log('\x1b[1m\x1b[32m%s\x1b[0m%s', 'Info ', 'Download successful!');
   } catch (error) {
-    console.error('\x1b[1m\x1b[31m%s\x1b[0m%s', 'Error:', ' Failed to download SOLX');
-    console.error('\x1b[1m\x1b[31m%s\x1b[0m%s', 'Error:', error)
+    console.error('\x1b[1m\x1b[31m%s\x1b[0m%s', 'Error ', 'Failed to download SOLX');
+    console.error('\x1b[1m\x1b[31m%s\x1b[0m%s', 'Error ', error)
     process.exit(1);
   }
 };
@@ -200,7 +201,7 @@ const getLinuxDistribution = async () => {
       recommendManualCompile();
       process.exit(1);
     default:
-      console.error('\x1b[1m\x1b[31m%s\x1b[0m%s', 'Error:', ' Invalid selection');
+      console.error('\x1b[1m\x1b[31m%s\x1b[0m%s', 'Error', ' Invalid selection');
       process.exit(1);
   }
 };
@@ -218,7 +219,7 @@ const getChecksum = async (os: string) => {
       }
       break;
     case 'win32':
-      console.log('\x1b[1m\x1b[31m%s\x1b[0m%s', 'Error:', " Windows download is not supported yet, please compile SolidityX from source");
+      console.log('\x1b[1m\x1b[31m%s\x1b[0m%s', 'Error ', "Windows download is not supported yet, please compile SolidityX from source");
       process.exit();
       return WINDOWS_CHECKSUM;
     default:
@@ -252,7 +253,7 @@ const getSolxLink = async (os: string): Promise<string> => {
 };
 
 const recommendManualCompile = () => {
-  console.error('\x1b[1m\x1b[31m%s\x1b[0m%s', 'Error:', ' Unsupported OS. Quai currently supports macOS and Ubuntu 20');
-  console.log('\x1b[1m\x1b[32m%s\x1b[0m%s', 'Tip: ', 'Compile SolidityX from source:');
-  console.log('\x1b[1m\x1b[32m%s\x1b[0m%s', 'Tip: ', 'Visit: https://github.com/dominant-strategies/SolidityX');
+  console.error('\x1b[1m\x1b[31m%s\x1b[0m%s', 'Error ', 'Unsupported OS. Quai currently supports macOS and Ubuntu 20');
+  console.log('\x1b[1m\x1b[32m%s\x1b[0m%s', 'Tip ', 'Compile SolidityX from source:');
+  console.log('\x1b[1m\x1b[32m%s\x1b[0m%s', 'Tip ', 'Visit: https://github.com/dominant-strategies/SolidityX');
 }
